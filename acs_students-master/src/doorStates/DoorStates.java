@@ -3,5 +3,15 @@ package doorStates;
 import baseNoStates.Door;
 
 public abstract class DoorStates {
-  public Door door;
+  protected Door door;
+  protected String name;
+
+  public DoorStates(Door door) {
+    this.door = door;
+  }
+
+  public abstract void open();
+  public abstract void close();
+  public abstract void lock();
+  public abstract void unlock();
 }

@@ -1,6 +1,8 @@
 package baseNoStates;
 
 import baseNoStates.requests.RequestReader;
+import doorStates.DoorStates;
+import doorStates.Locked;
 import org.json.JSONObject;
 
 
@@ -84,5 +86,9 @@ public class Door {
     json.put("state", getStateName());
     json.put("closed", closed);
     return json;
+  }
+
+  public void setState(DoorStates doorStates) {
+
   }
 }
