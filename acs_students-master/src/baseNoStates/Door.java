@@ -32,23 +32,16 @@ public class Door {
   private void doAction(String action) {
     switch (action) {
       case Actions.OPEN:
-        if (closed) {
-          closed = false;
-        } else {
-          System.out.println("Can't open door " + id + " because it's already open");
-        }
+        this.state.open();
         break;
       case Actions.CLOSE:
-        if (closed) {
-          System.out.println("Can't close door " + id + " because it's already closed");
-        } else {
-          closed = true;
-        }
+        this .state.close();
         break;
       case Actions.LOCK:
         // TODO
         // fall through
         this.state = new Locked(this);
+        state.lock();
         break;
       case Actions.UNLOCK:
         // TODO
@@ -97,4 +90,6 @@ public class Door {
   public void setState(DoorStates doorStates) {
     this.state = doorStates;
   }
+
+  public void setClosed(boolean close) { this.closed = close;}
 }

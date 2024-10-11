@@ -10,15 +10,15 @@ public class Locked extends DoorStates {
 
   @Override
   public void open() {
-    System.out.println("Can`t open the door because it's locked");
+    System.out.println("Can`t open " + door.getId() + " door because it's locked");
   }
   @Override
   public void close() {
-    System.out.println("It's already closed");
+    System.out.println( door.getId() +  " is already closed");
   }
   @Override
   public void lock() {
-    door.setState(new Locked(door));
+    System.out.println("Can`t lock " + door.getId() + " door because it's already locked");
     name = "locked";
   }
   @Override
