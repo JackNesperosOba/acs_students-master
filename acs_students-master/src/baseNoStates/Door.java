@@ -3,12 +3,14 @@ package baseNoStates;
 import baseNoStates.requests.RequestReader;
 import doorStates.DoorStates;
 import doorStates.Locked;
+import doorStates.Unlocked;
 import org.json.JSONObject;
 
 
 public class Door {
   private final String id;
   private boolean closed; // physically
+  private DoorStates state = new Unlocked(this);
 
   public Door(String id) {
     this.id = id;
@@ -46,9 +48,13 @@ public class Door {
       case Actions.LOCK:
         // TODO
         // fall through
+        this.state = new Locked(this);
+        break;
       case Actions.UNLOCK:
         // TODO
         // fall through
+        this.state = new Unlocked(this);
+        break;
       case Actions.UNLOCK_SHORTLY:
         // TODO
         System.out.println("Action " + action + " not implemented yet");
@@ -68,7 +74,7 @@ public class Door {
   }
 
   public String getStateName() {
-    return "unlocked";
+    return state.getName();
   }
 
   @Override
@@ -89,6 +95,6 @@ public class Door {
   }
 
   public void setState(DoorStates doorStates) {
-
+    this.state = doorStates;
   }
 }
