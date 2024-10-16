@@ -2,18 +2,23 @@ package baseNoStates;
 
 import baseNoStates.requests.RequestReader;
 import doorStates.DoorStates;
-import doorStates.Locked;
 import doorStates.Unlocked;
 import org.json.JSONObject;
+
+import java.util.SortedMap;
 
 
 public class Door {
   private final String id;
   private boolean closed; // physically
   private DoorStates state = new Unlocked(this);
+  private Space fromSpace;
+  private Space toSpace;
 
-  public Door(String id) {
+  public Door(String id, Space fromSpace, Space toSpace) {
     this.id = id;
+    this.fromSpace = fromSpace;
+    this.toSpace = toSpace;
     closed = true;
   }
 
@@ -40,13 +45,12 @@ public class Door {
       case Actions.LOCK:
         // TODO
         // fall through
-        this.state = new Locked(this);
-        state.lock();
+        this.state.lock();
         break;
       case Actions.UNLOCK:
         // TODO
         // fall through
-        this.state = new Unlocked(this);
+        this.state.unlock();
         break;
       case Actions.UNLOCK_SHORTLY:
         // TODO
@@ -91,5 +95,8 @@ public class Door {
     this.state = doorStates;
   }
 
-  public void setClosed(boolean close) { this.closed = close;}
+  public void setClosed(boolean close) { this.closed = close; }
+
+  public Space getFromSpace()  {return fromSpace; }
+  public Space getToSpace() { return toSpace; }
 }

@@ -1,6 +1,7 @@
 package baseNoStates;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public final class DirectoryUsers {
   private static final ArrayList<User> users = new ArrayList<>();
@@ -37,6 +38,25 @@ public final class DirectoryUsers {
     // all actions
     // all spaces
     users.add(new User("Ana", "11343"));
+
+    ArrayList<String> areas = new ArrayList<>(Arrays.asList("building", "basement", "ground_floor", "floor1", "stairs", "exterior", "parking", "hall", "room1", "room2", "room3", "corridor", "IT"));
+    for (User user : users) {
+      if (user.getCredential().equals("11343") || user.getCredential().equals("95783") || user.getCredential().equals("05827")) {
+        for (String id : areas) {
+          Area space = DirectoryAreas.findAreaById(id);
+          user.addArea(space);
+        }
+      }
+      else if (user.getCredential().equals("74984") || user.getCredential().equals("43295"))
+      {
+        for (String id : areas) {
+          if (!id.equals("parking")) {
+            Area space = DirectoryAreas.findAreaById(id);
+            user.addArea(space);
+          }
+        }
+      }
+    }
   }
 
   public static User findUserByCredential(String credential) {
