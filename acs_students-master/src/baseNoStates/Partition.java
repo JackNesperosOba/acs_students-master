@@ -40,9 +40,6 @@ public class Partition extends Area{
   public ArrayList<Door> getDoorsGivingAccess() {
     ArrayList<Door> doors = new ArrayList<>();
     for (Area area : areas) {
-      if (this.id.equals("building") && area.id.equals("exterior"))
-        return area.getDoorsGivingAccess();
-      else
         doors.addAll(area.getDoorsGivingAccess());
     }
     return doors;

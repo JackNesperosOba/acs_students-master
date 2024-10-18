@@ -2,12 +2,14 @@ package doorStates;
 
 import baseNoStates.Door;
 
+//Unlocked door state that inherits the abstract class doorstate allowing user to open, close or lock the door
 public class Unlocked extends DoorStates {
   public Unlocked(Door door) {
     super(door);
     name = "unlocked";
   }
 
+  //opens the door if it's closed
   @Override
   public void open() {
     if (!door.isClosed()) {
@@ -16,6 +18,7 @@ public class Unlocked extends DoorStates {
       door.setClosed(false);
     }
   }
+  //closes the door if it's open
   @Override
   public void close() {
     if (door.isClosed()) {
@@ -24,6 +27,7 @@ public class Unlocked extends DoorStates {
       door.setClosed(true);
     }
   }
+  //Locks the door if the doors is closed changing the state
   @Override
   public void lock() {
     if (door.isClosed()) {
@@ -31,6 +35,7 @@ public class Unlocked extends DoorStates {
       name = "locked";
     }
   }
+  //Unlocks the door even if its already unlocked meaning that it stays at the same state
   @Override
   public void unlock() {
     door.setState(new Unlocked(door));
