@@ -158,6 +158,20 @@ class Partition extends Area{
 +addArea(Area : area)
 }
 
+class DirectoryUserGroup {
+
+}
+
+class UserGroup {
+
+}
+
+class Schedule {
+
+}
+
+
+
 Partition *--> "*" Area : areas
 User --> "*" Area : "areas"
 Spaces --> "*" Door : "doors"

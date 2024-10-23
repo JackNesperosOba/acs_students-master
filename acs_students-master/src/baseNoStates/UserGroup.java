@@ -6,7 +6,7 @@ import java.util.ArrayList;
 //Class UserGroup that classifies the user in different groups to know what actions, areas and time they are allowed doing
 public class UserGroup {
   private final String name;
-  private final Schedule schedule;
+  private final Schedule schedule;  //A group has its own schedule
   private final ArrayList<String> actions;
   private final ArrayList<User> users;
   private final ArrayList<Area> areas;

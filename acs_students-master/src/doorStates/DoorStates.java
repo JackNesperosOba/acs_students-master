@@ -2,7 +2,7 @@ package doorStates;
 
 import baseNoStates.Door;
 
-//Abstract class doorState used to define common behaviors that must implement the different states of the door
+//Abstract class doorState used to define common behaviors that must implement the different states of the door, uses the State Pattern with Lock, Unlock, Unlock_Shortly and Propped classes
 public abstract class DoorStates {
   protected Door door;
   protected String name;
@@ -18,4 +18,5 @@ public abstract class DoorStates {
   public abstract void close();
   public abstract void lock();
   public abstract void unlock();
+  public abstract void unlock_shortly();
 }

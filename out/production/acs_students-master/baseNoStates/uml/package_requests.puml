@@ -40,7 +40,9 @@ package requests {
     - now : LocalDateTime
     - areaId : String
     - requestsReader : RequestReader[]
+    + RequestArea(credential : String, action : String, now : LocalDateTime, areaId : String )
     + answerToJson() : JSONObject
+    + toString() : String
     + process()
     + getAction() : String
     }

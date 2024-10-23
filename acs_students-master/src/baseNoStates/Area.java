@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-//Abstract class Area used to define common behaviors that must implement the areas that a user can be in
+//Abstract class Area used to define common behaviors that must implement the areas that a user can be in, using the Composite pattern with Partition and Space classes
 public abstract class Area {
   protected String id;
 

@@ -2,7 +2,7 @@ package baseNoStates;
 
 import java.util.ArrayList;
 
-//Partition area that inherits the abstract class Area including a spaces or group of spaces
+//Partition area that inherits the abstract class Area including a spaces, group of spaces or partitions
 public class Partition extends Area{
   private Partition partition;
   private ArrayList<Area> areas = new ArrayList<>();

@@ -2,11 +2,11 @@ package doorStates;
 
 import baseNoStates.Door;
 
-//Locked door state that inherits the abstract class doorstate allowing user only to unlock the door
+//Locked door state that inherits the abstract class doorState allowing user only to unlock the door
 public class Locked extends DoorStates {
   public Locked(Door door) {
     super(door);
-    name = "locked";
+    name = States.LOCKED;
   }
 
   //
@@ -31,5 +31,11 @@ public class Locked extends DoorStates {
     door.setState(new Unlocked(door));
     name = "unlocked";
   }
+
+  @Override
+  public void unlock_shortly() {
+    door.setState(new UnlockedShortly(door));
+  }
+
 }
 
