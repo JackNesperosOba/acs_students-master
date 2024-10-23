@@ -27,7 +27,9 @@ end note
 
 class DirectoryAreas {
 - {static} allDoors : Door[]
-+ {static} makeDoors()
+- {static} rootArea : Area
++ {static} makeAreas()
++ {static} findAreaById(id : String) : Area
 + {static} findDoorById(id : String) : Door
 + {static} getAllDoors() : Door[]
 }
@@ -45,23 +47,34 @@ DirectoryUsers --> "*" User : "users"
 class Door {
 - id : String
 - closed : boolean
-+ Door(id : String)
+- state : DoorState
+- fromSpace : Space
+- toSpace : Space
++ Door(id : String, fromSpace : Space, toSpace : Space)
 + processRequest(request : RequestReader)
-+ setState(doorState : DoorState)
-+ toJson() : JSONObject
-'+ toString() : String
-'+ isClosed() :boolean
-'+ setClosed(b : boolean)
-'+ getStateName() : String
++ isClosed() :boolean
 - doAction(action : String)
++ getId() : String
++ getStateName() : String
++ toJson() : JSONObject
++ toString() : String
++ setState(doorState : DoorState)
++ setClosed(b : boolean)
++ getFromSpace() : Space
++ getToSpace() : Space
 }
 
 
 class User {
 - name : String
 - credential : String
+- areas : Area[]
 + User(name: String, credential: String)
++ getCredential() : String
 + toString() : String
++ getSpaces() : Space[]
++ canBeInSpace(sp : Space) : boolean
++ addArea(Area : area)
 }
 
 
@@ -70,7 +83,7 @@ class Main {
 }
 
 note right of Main::main
-DirectoryDoors.makeDoors()
+DirectoryAreas.makeAreas()
 DiretoryUsers.makeUsers()
 new Webserver()
 end note
@@ -81,36 +94,71 @@ package doorState <<Folder>> {
     }
 
     class Actions {
-
+    + {static} LOCK : String
+    + {static} UNLOCK : String
+    + {static} UNLOCK_SHORTLY : String
+    + {static} OPEN : String
+    + {static} CLOSE : String
     }
-    abstract class DoorState {
 
+    abstract class DoorState {
+    #door : Door
+    #name : String
+    + DoorStates(Door : door)
+    + {abstract} open()
+    + {abstract} close()
+    + {abstract} lock()
+    + {abstract} unlock()
     }
 
     class Unlocked extends DoorState {
-
+    +Unlocked(Door : door)
+    + open()
+    + close()
+    + lock()
+    + unlock()
     }
 
     class Locked extends DoorState {
-
+    + Locked(Door : door)
+    + open()
+    + close()
+    + lock()
+    + unlock()
     }
 }
 Door --> "1" DoorState : "state"
 
-
 abstract class Area {
-
+#id: String
++Area: (id : String)
++ {abstract} findAreaById(id : String)
++ {abstract} getSpaces() : Space[]
++ {abstract} getDoorsGivingAccess : Door[]
++ {abstract} toString() : String
++ {abstract} toJson() : JSONObject
 }
 
 class Spaces extends Area{
-
+-doors : Door[]
++Space(id : String, group : Partition)
++findAreaById(id : String)
++getSpaces() : Space[]
++getDoorsGivingAccess() : Door[]
++addDoor(Door : door)
 }
 
 class Partition extends Area{
-
+-partition : Partition
+-areas : Area[]
++Partition(id : String, partition : Partition)
++findAreaById(id : String)
++getSpaces() : Space[]
++getDoorsGivingAccess : Door[]
++addArea(Area : area)
 }
 
-Area --* Partition
+Partition *--> "*" Area : areas
 User --> "*" Area : "areas"
 Spaces --> "*" Door : "doors"
 Door --> "1" Spaces : "fromSpace"
