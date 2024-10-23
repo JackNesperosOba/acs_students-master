@@ -13,6 +13,7 @@ public abstract class DoorStates {
   //returns the current door state
   public String getName() {return name;}
 
+  //Abstract funcitions that inherited classes must implement
   public abstract void open();
   public abstract void close();
   public abstract void lock();

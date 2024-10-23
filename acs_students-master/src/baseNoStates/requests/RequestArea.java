@@ -1,6 +1,6 @@
 package baseNoStates.requests;
 
-import baseNoStates.Actions;
+import doorStates.Actions;
 import baseNoStates.Area;
 import baseNoStates.DirectoryAreas;
 import baseNoStates.Door;

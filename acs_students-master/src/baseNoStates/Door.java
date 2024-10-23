@@ -1,19 +1,18 @@
 package baseNoStates;
 
 import baseNoStates.requests.RequestReader;
+import doorStates.Actions;
 import doorStates.DoorStates;
 import doorStates.Unlocked;
 import org.json.JSONObject;
 
-import java.util.SortedMap;
-
-
+//Class door to process what action needs to do
 public class Door {
   private final String id;
   private boolean closed; // physically
   private DoorStates state = new Unlocked(this);
-  private Space fromSpace;
-  private Space toSpace;
+  private Space fromSpace;  // A door can do an action from this space to another
+  private Space toSpace;  // A door can do an action from a space to this space
 
   public Door(String id, Space fromSpace, Space toSpace) {
     this.id = id;
@@ -95,7 +94,7 @@ public class Door {
     this.state = doorStates;
   }
 
-  public void setClosed(boolean close) { this.closed = close; }
+  public void setClosed(boolean close) { this.closed = close; } //Set the door as closed
 
   public Space getFromSpace()  {return fromSpace; }
   public Space getToSpace() { return toSpace; }

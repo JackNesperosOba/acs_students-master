@@ -3,10 +3,12 @@ package baseNoStates;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//Creates partition, areas and doors
 public class DirectoryAreas {
   private static ArrayList<Door> allDoors;
   private static Area rootArea;
 
+  //Initialize the different partitions with areas and doors
   public static void makeAreas() {
     Partition building = new Partition("building", null);
     Partition basement = new Partition("basement", building);
@@ -40,7 +42,7 @@ public class DirectoryAreas {
     //basement
     Door d1 = new Door("D1", exterior, parking);
     Door d2 = new Door("D2", stairs, parking);
-    //ground floor
+    //ground_floor
     Door d3 = new Door("D3", exterior, hall);
     Door d4 = new Door("D4", stairs, hall);
     Door d5 = new Door("D5", hall, room1);
@@ -55,8 +57,8 @@ public class DirectoryAreas {
     hall.addDoor(d4);
     room1.addDoor(d5);
     room2.addDoor(d6);
-    room3.addDoor(d7);
-    corridor.addDoor(d8);
+    room3.addDoor(d8);
+    corridor.addDoor(d7);
     IT.addDoor(d9);
     stairs.addDoor(d2);
     stairs.addDoor(d4);

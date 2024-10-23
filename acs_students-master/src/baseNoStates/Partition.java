@@ -1,8 +1,8 @@
 package baseNoStates;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+//Partition area that inherits the abstract class Area including a spaces or group of spaces
 public class Partition extends Area{
   private Partition partition;
   private ArrayList<Area> areas = new ArrayList<>();
@@ -17,29 +17,30 @@ public class Partition extends Area{
     if (this.id.equals(id)) {
       return this;
     }
-    // 2. Recorremos todas las áreas (sub-áreas) dentro de la partición actual.
+    // Loop through all areas inside the current group area.
     for (Area area : areas) {
-      Area foundArea = area.findAreaById(id);  // Llamada recursiva
-      if (foundArea != null) {  // Si encuentra el área, la retorna
+      Area foundArea = area.findAreaById(id);  //Recursive
+      if (foundArea != null) {
         return foundArea;
       }
     }
-    // 3. Si no se encuentra el área en esta partición ni en sus subáreas, retorna null.
+    // Returns null if there is no area founded.
     return null;
   }
 
   @Override
   public ArrayList<Space> getSpaces() {
+    ArrayList<Space> spaces = new ArrayList<>();
     for (Area area : areas) {
-       return area.getSpaces();
+       spaces.addAll(area.getSpaces());
     }
-    return null;
+    return spaces;
   }
 
   @Override
   public ArrayList<Door> getDoorsGivingAccess() {
     ArrayList<Door> doors = new ArrayList<>();
-    for (Area area : areas) {
+    for (Area area : areas) { //Loops through list of areas in the partition to get the all doors and return it as a list of doors
         doors.addAll(area.getDoorsGivingAccess());
     }
     return doors;

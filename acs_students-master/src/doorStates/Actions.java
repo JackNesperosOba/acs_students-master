@@ -1,7 +1,6 @@
 package doorStates;
 
-//Class with the different actions that a door can do
-public class Actions {
+public final class Actions {
   // possible actions in reader and area requests
   public static final String LOCK = "lock";
   public static final String UNLOCK = "unlock";
