@@ -32,18 +32,16 @@ public class Unlocked extends DoorStates {
   public void lock() {
     if (door.isClosed()) {
       door.setState(new Locked(door));
-      name = "locked";
     }
   }
   //Unlocks the door even if its already unlocked meaning that it stays at the same state
   @Override
   public void unlock() {
     door.setState(new Unlocked(door));
-    name = "unlocked";
   }
 
   @Override
   public void unlock_shortly() {
-
+    System.out.println("Door is already unlocked");
   }
 }

@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Observer;
 
+//Unlocked_Shortly door state that inherits the abstract class doorState and implements the observer pattern with the clock
+//In this state a user can open or close a door during the limited time defined
 public class UnlockedShortly extends DoorStates implements Observer {
   private static final int MAX_TIME = 10;
   private static final Clock clock = new Clock(MAX_TIME); // a unique clock is shared by all X objects because of static
@@ -44,7 +46,7 @@ public class UnlockedShortly extends DoorStates implements Observer {
   @Override
   public void open() {
     if (!door.isClosed()) {
-      System.out.println("Can't open door " + door.getId() + " because it's already ");
+      System.out.println("Can't open door " + door.getId() + " because it's already");
     } else {
       door.setClosed(false);
     }
@@ -61,12 +63,12 @@ public class UnlockedShortly extends DoorStates implements Observer {
 
   @Override
   public void lock() {
-    System.out.println("Cannot lock the door while it's in Unlocked Shortly state.");
+    System.out.println("Cannot lock the door while it's in Unlocked Shortly state");
   }
 
   @Override
   public void unlock() {
-    System.out.println("Door is already unlocked temporarily.");
+    System.out.println("Door is already unlocked temporarily");
   }
 
   @Override

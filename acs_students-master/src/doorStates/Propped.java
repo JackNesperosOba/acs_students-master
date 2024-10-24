@@ -2,6 +2,7 @@ package doorStates;
 
 import baseNoStates.Door;
 
+//Propped door state that inherits the abstract class doorState allowing user only to close and lock the door because it was Unlocked Shortly
 public class Propped extends DoorStates{
 
   public Propped(Door door) {
@@ -15,6 +16,7 @@ public class Propped extends DoorStates{
     System.out.println("Door " + door.getId() + " is already open");
   }
 
+  //Closes and locks the door
   @Override
   public void close() {
     System.out.println("Door " + door.getId() + " is closed");
