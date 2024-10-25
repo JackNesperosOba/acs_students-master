@@ -36,13 +36,31 @@ class DirectoryAreas {
 
 DirectoryAreas --> "*" Door : "allDoors"
 
-class DirectoryUsers {
-- {static} users : User[]
-+ {static} makeUsers()
+class DirectoryUsersGroups {
+- {static} usersGroups : UserGroup[]
+- {static} THIS_YEAR : int
++ {static} makeUserGroups()
 + {static} findUserByCredential(credential : String) : User
 }
 
-DirectoryUsers --> "*" User : "users"
+class UsersGroup {
+- name : String
+- schedule : Schedule
+- actions : String[]
+- users : User[]
+- areas : Area[]
++ UserGroup(name : String, schedule : Schedule,
+actions : String[] ,areas : Area[], users : User[])
++ getName() : String
++ canBeInSpace(sp : Space) : boolean
++ canSendRequest(now : LocalDateTime) : boolean
++ canDoAction(action : String) : boolean
+}
+
+
+Schedule --> "1" UsersGroup : "schedule"
+DirectoryUsersGroups o--> "*" UsersGroup : "usersGroup"
+UsersGroup "1 userGroup" *--> "*" User : "users"
 
 class Door {
 - id : String
@@ -52,7 +70,7 @@ class Door {
 - toSpace : Space
 + Door(id : String, fromSpace : Space, toSpace : Space)
 + processRequest(request : RequestReader)
-+ isClosed() :boolean
++ isClosed() : boolean
 - doAction(action : String)
 + getId() : String
 + getStateName() : String
@@ -68,13 +86,14 @@ class Door {
 class User {
 - name : String
 - credential : String
-- areas : Area[]
+- group : UserGroup
 + User(name: String, credential: String)
 + getCredential() : String
 + toString() : String
-+ getSpaces() : Space[]
 + canBeInSpace(sp : Space) : boolean
-+ addArea(Area : area)
++ canSendRequest(now : LocalDateTime) : boolean
++ canDoAction(action : String) : boolean
++ setGroup(group : UsersGroup)
 }
 
 
@@ -90,25 +109,30 @@ end note
 
 package doorState <<Folder>> {
     class States {
-
+    {static} LOCKED : String
+    {static} UNLOCKED : String
+    {static} UNLOCKED_SHORTLY : String
+    {static} PROPPED : String
     }
 
     class Actions {
     + {static} LOCK : String
     + {static} UNLOCK : String
     + {static} UNLOCK_SHORTLY : String
+    + {static} PROPPED : String
     + {static} OPEN : String
     + {static} CLOSE : String
     }
 
     abstract class DoorState {
-    #door : Door
-    #name : String
+    # door : Door
+    # name : String
     + DoorStates(Door : door)
     + {abstract} open()
     + {abstract} close()
     + {abstract} lock()
     + {abstract} unlock()
+    + {abstract} unlock_shortly()
     }
 
     class Unlocked extends DoorState {
@@ -117,6 +141,7 @@ package doorState <<Folder>> {
     + close()
     + lock()
     + unlock()
+    + unlock_shortly()
     }
 
     class Locked extends DoorState {
@@ -125,12 +150,48 @@ package doorState <<Folder>> {
     + close()
     + lock()
     + unlock()
+    + unlock_shortly()
     }
+
+    class UnlockedShortly extends DoorState implements Observer {
+    - {static} MAX_TIME : int
+    - {static} clock : Clock
+    - timeUnlocked : LocalDateTime
+    + UnlockedShortly(Door : door)
+    + open()
+    + close()
+    + lock()
+    + unlock()
+    + unlock_shortly()
+    + update(o : Observable, arg : Object)
+    }
+
+    class Propped extends DoorState  {
+    + Propped(Door : door)
+    + open()
+    + close()
+    + lock()
+    + unlock()
+    + unlock_shortly()
+    }
+
+    class Clock implements Observable {
+    - date : LocalDateTime
+    - timer : Timer
+    - period : int
+    + Clock(period : int)
+    + start()
+    + stop()
+    + getDate() : LocalDateTime
+    }
+Actions -[hidden]right- DoorState
+DoorState -[hidden]right- States
 }
 Door --> "1" DoorState : "state"
 
 abstract class Area {
 #id: String
+__
 +Area: (id : String)
 + {abstract} findAreaById(id : String)
 + {abstract} getSpaces() : Space[]
@@ -140,37 +201,35 @@ abstract class Area {
 }
 
 class Spaces extends Area{
--doors : Door[]
-+Space(id : String, group : Partition)
-+findAreaById(id : String)
-+getSpaces() : Space[]
-+getDoorsGivingAccess() : Door[]
-+addDoor(Door : door)
+- doors : Door[]
+- group : Partition
++ Space(id : String, group : Partition)
++ findAreaById(id : String) : Area
++ getSpaces() : Space[]
++ getDoorsGivingAccess() : Door[]
++ addDoor(Door : door)
 }
 
 class Partition extends Area{
--partition : Partition
--areas : Area[]
-+Partition(id : String, partition : Partition)
-+findAreaById(id : String)
-+getSpaces() : Space[]
-+getDoorsGivingAccess : Door[]
-+addArea(Area : area)
-}
-
-class DirectoryUserGroup {
-
-}
-
-class UserGroup {
-
+- partition : Partition
+- areas : Area[]
+__
++ Partition(id : String, partition : Partition)
++ findAreaById(id : String) : Area
++ getSpaces() : Space[]
++ getDoorsGivingAccess : Door[]
++ addArea(Area : area)
 }
 
 class Schedule {
-
+- firstDay : LocalDate
+- lastDay : LocalDate
+- daysOfTheWeek : DayOfWeek[]
+- fromTime : LocalTime
+- toTime : LocalTime
++ Schedule(firstDay : LocalDate, lastDay : LocalDate, daysOfTheWeek : DayOfWeek[], fromTime : LocalTime, toTime : LocalDate)
++ canSendRequest(now : LocalDateTime) : boolean
 }
-
-
 
 Partition *--> "*" Area : areas
 User --> "*" Area : "areas"
@@ -178,13 +237,9 @@ Spaces --> "*" Door : "doors"
 Door --> "1" Spaces : "fromSpace"
 Door --> "1" Spaces : "toSpace"
 
-
-Main -[hidden]down- Webserver
-Webserver -[hidden]down- DirectoryAreas
-DirectoryAreas -[hidden]right- DirectoryUsers
-Door -[hidden]down- doorState
-Spaces -[hidden]right- Partition
-User -[hidden]right- Door
-Spaces -[hidden]left- Door
+Spaces -[hidden]right- Door
+Partition -[hidden]left- Area
+UsersGroup -[hidden]right- User
+SocketThread -[hidden]down- Main
 
 @enduml

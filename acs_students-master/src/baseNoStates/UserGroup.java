@@ -34,14 +34,6 @@ public class UserGroup {
     return null;
   }
 
-  private ArrayList<Space> getSpaces() {
-    ArrayList<Space> spaces = new ArrayList<>();
-    for (Area area : areas) {
-      spaces.addAll(area.getSpaces());
-    }
-    return spaces;
-  }
-
   //Loops the area list of the group to know if the space is in the list
   public boolean canBeInSpace(Space sp) {
     for (Area area : areas) {
