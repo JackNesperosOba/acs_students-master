@@ -1,13 +1,15 @@
-package baseNoStates;
+package basenostates;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 //Space area that inherits the abstract class Area creating a specific space
-public class Space extends Area{
+@SuppressWarnings("checkstyle:MissingJavadocType")
+public class Space extends Area {
   private ArrayList<Door> doors = new ArrayList<>();
   private Partition group;
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public Space(String id, Partition group) {
     super(id);
     this.group = group;
@@ -31,6 +33,7 @@ public class Space extends Area{
     return this.doors;
   }
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public void addDoor(Door door) {
     doors.add(door);
   }

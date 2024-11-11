@@ -1,19 +1,22 @@
-package doorStates;
+package doorstates;
 
-import baseNoStates.Door;
-
+import basenostates.Door;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Observer;
 
-//Unlocked_Shortly door state that inherits the abstract class doorState and implements the observer pattern with the clock
+//Unlocked_Shortly door state that inherits the abstract class doorState
+// and implements the observer pattern with the clock
 //In this state a user can open or close a door during the limited time defined
+@SuppressWarnings("checkstyle:MissingJavadocType")
 public class UnlockedShortly extends DoorStates implements Observer {
   private static final int MAX_TIME = 10;
-  private static final Clock clock = new Clock(MAX_TIME); // a unique clock is shared by all X objects because of static
+  private static final Clock clock = new Clock(MAX_TIME); // a unique clock is shared by all
+  // X objects because of static
   private final LocalDateTime timeUnlocked;
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public UnlockedShortly(Door door) {
     super(door);
     name = States.UNCLOKED_SHORTLY;
@@ -30,14 +33,17 @@ public class UnlockedShortly extends DoorStates implements Observer {
 
     long diff = Math.abs(duration.toSeconds());
     if (diff > MAX_TIME) {
-      System.out.println("Door " + this.door.getId() + " closed is " + this.door.isClosed() + MAX_TIME + " seconds unlocked");
-      if (door.isClosed()){
+      System.out.println("Door " + this.door.getId() + " closed is "
+          + this.door.isClosed() + MAX_TIME + " seconds unlocked");
+      if (door.isClosed()) {
         clock.deleteObserver(this);
-        System.out.println("Door " + this.door.getId() + " change state from Unlocked Shortly to Locked");
+        System.out.println("Door " + this.door.getId()
+            + " change state from Unlocked Shortly to Locked");
         door.setState(new Locked(door));
       } else {
         clock.deleteObserver(this);
-        System.out.println("Door " + this.door.getId() + " change state from Unlocked Shortly to Propped");
+        System.out.println("Door " + this.door.getId()
+            + " change state from Unlocked Shortly to Propped");
         door.setState(new Propped(door));
       }
     }
@@ -72,7 +78,8 @@ public class UnlockedShortly extends DoorStates implements Observer {
   }
 
   @Override
-  public void unlock_shortly() {
-    System.out.println("Door " + door.getId() + " can't be temporarily unlocked because it is already unlocked shortly");
+  public void unlockShortly() {
+    System.out.println("Door " + door.getId()
+        + " can't be temporarily unlocked because it is already unlocked shortly");
   }
 }

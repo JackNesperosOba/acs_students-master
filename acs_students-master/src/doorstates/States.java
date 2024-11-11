@@ -1,6 +1,7 @@
-package doorStates;
+package doorstates;
 
 //States that the door can be
+@SuppressWarnings("checkstyle:MissingJavadocType")
 public class States {
   static String LOCKED = "locked";
   static String UNLOCkED =  "unlocked";

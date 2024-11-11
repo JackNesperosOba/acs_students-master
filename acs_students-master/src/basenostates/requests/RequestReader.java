@@ -1,13 +1,15 @@
-package baseNoStates.requests;
+package basenostates.requests;
 
-import baseNoStates.*;
-
+import basenostates.DirectoryAreas;
+import basenostates.DirectoryUserGroups;
+import basenostates.Door;
+import basenostates.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@SuppressWarnings("checkstyle:MissingJavadocType")
 public class RequestReader implements Request {
   private final String credential; // who
   private final String action;     // what
@@ -19,6 +21,7 @@ public class RequestReader implements Request {
   private String doorStateName;
   private boolean doorClosed;
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public RequestReader(String credential, String action, LocalDateTime now, String doorId) {
     this.credential = credential;
     this.action = action;
@@ -39,6 +42,7 @@ public class RequestReader implements Request {
     return authorized;
   }
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public void addReason(String reason) {
     reasons.add(reason);
   }
@@ -61,6 +65,7 @@ public class RequestReader implements Request {
             + "}";
   }
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public JSONObject answerToJson() {
     JSONObject json = new JSONObject();
     json.put("authorized", authorized);
@@ -74,6 +79,7 @@ public class RequestReader implements Request {
 
   // see if the request is authorized and put this into the request, then send it to the door.
   // if authorized, perform the action.
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public void process() {
     User user = DirectoryUserGroups.findUserByCredential(credential);
     Door door = DirectoryAreas.findDoorById(doorId);

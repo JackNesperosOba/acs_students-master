@@ -1,16 +1,15 @@
-package baseNoStates.requests;
+package basenostates.requests;
 
-import doorStates.Actions;
-import baseNoStates.Area;
-import baseNoStates.DirectoryAreas;
-import baseNoStates.Door;
+import basenostates.Area;
+import basenostates.DirectoryAreas;
+import basenostates.Door;
+import doorstates.Actions;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-
+@SuppressWarnings("checkstyle:MissingJavadocType")
 public class RequestArea implements Request {
   private final String credential;
   private final String action;
@@ -18,7 +17,7 @@ public class RequestArea implements Request {
   private final LocalDateTime now;
   private ArrayList<RequestReader> requests = new ArrayList<>();
 
-
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public RequestArea(String credential, String action, LocalDateTime now, String areaId) {
     this.credential = credential;
     this.areaId = areaId;
@@ -66,6 +65,7 @@ public class RequestArea implements Request {
   // processing the request of an area is creating the corresponding door requests and forwarding
   // them to all of its doors. For some it may be authorized and action will be done, for others
   // it won't be authorized and nothing will happen to them.
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public void process() {
     // commented out until Area, Space and Partition are implemented
 
@@ -75,7 +75,8 @@ public class RequestArea implements Request {
     // an Area is a Space or a Partition
     if (area != null) {
       // is null when from the app we click on an action but no place is selected because
-      // there (flutter) I don't control like I do in javascript that all the parameters are provided
+      // there (flutter) I don't control like I do in
+      // javascript that all the parameters are provided
 
       // Make all the door requests, one for each door in the area, and process them.
       // Look for the doors in the spaces of this area that give access to them.

@@ -1,10 +1,12 @@
-package doorStates;
+package doorstates;
 
-import baseNoStates.Door;
+import basenostates.Door;
 
-//Propped door state that inherits the abstract class doorState allowing user only to close and lock the door because it was Unlocked Shortly
-public class Propped extends DoorStates{
-
+//Propped door state that inherits the abstract class doorState allowing
+// user only to close and lock the door because it was Unlocked Shortly
+@SuppressWarnings("checkstyle:MissingJavadocType")
+public class Propped extends DoorStates {
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public Propped(Door door) {
     super(door);
     name = States.PROPPED;
@@ -35,7 +37,8 @@ public class Propped extends DoorStates{
   }
 
   @Override
-  public void unlock_shortly() {
-    System.out.println("Door " + door.getId() + " can't be temporarily unlocked because it is propped");
+  public void unlockShortly() {
+    System.out.println("Door " + door.getId()
+        + " can't be temporarily unlocked because it is propped");
   }
 }

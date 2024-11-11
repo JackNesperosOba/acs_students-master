@@ -1,4 +1,4 @@
-package baseNoStates;
+package basenostates;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 //Class schedule to know if a certain user can do an action inside the range of time defined
+@SuppressWarnings({"checkstyle:MissingJavadocType", "checkstyle:LineLength"})
 public class Schedule {
   private LocalDate firstDay;
   private LocalDate lastDay;
@@ -14,7 +15,9 @@ public class Schedule {
   private LocalTime fromTime;
   private LocalTime toTime;
 
-  public Schedule(LocalDate firstDay, LocalDate lastDay, ArrayList<DayOfWeek> daysOfTheWeek, LocalTime fromTime, LocalTime toTime) {
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
+  public Schedule(LocalDate firstDay, LocalDate lastDay, ArrayList<DayOfWeek>
+      daysOfTheWeek, LocalTime fromTime, LocalTime toTime) {
     this.firstDay = firstDay;
     this.lastDay = lastDay;
     this.daysOfTheWeek = daysOfTheWeek;
@@ -22,6 +25,7 @@ public class Schedule {
     this.toTime = toTime;
   }
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public boolean canSendRequest(LocalDateTime now) {
     LocalDate today = now.toLocalDate();  //current date
     DayOfWeek dayOfWeek = now.getDayOfWeek(); // current day of the week

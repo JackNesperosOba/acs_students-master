@@ -1,10 +1,9 @@
-package baseNoStates;
+package basenostates;
 
-import baseNoStates.requests.Request;
-import baseNoStates.requests.RequestReader;
-import baseNoStates.requests.RequestRefresh;
-import baseNoStates.requests.RequestArea;
-
+import basenostates.requests.Request;
+import basenostates.requests.RequestArea;
+import basenostates.requests.RequestReader;
+import basenostates.requests.RequestRefresh;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,11 +17,13 @@ import java.util.StringTokenizer;
 // Based on
 // https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
 // http://www.jcgonzalez.com/java-socket-mini-server-http-example
+@SuppressWarnings("checkstyle:MissingJavadocType")
 public class WebServer {
   private static final int PORT = 8080; // port to listen connection
   private static final DateTimeFormatter formatter =
           DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public WebServer() {
     try {
       ServerSocket serverConnect = new ServerSocket(PORT);

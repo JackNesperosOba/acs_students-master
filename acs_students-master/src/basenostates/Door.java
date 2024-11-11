@@ -1,12 +1,13 @@
-package baseNoStates;
+package basenostates;
 
-import baseNoStates.requests.RequestReader;
-import doorStates.Actions;
-import doorStates.DoorStates;
-import doorStates.Unlocked;
+import basenostates.requests.RequestReader;
+import doorstates.Actions;
+import doorstates.DoorStates;
+import doorstates.Unlocked;
 import org.json.JSONObject;
 
 //Class door to process what action needs to do
+@SuppressWarnings("checkstyle:MissingJavadocType")
 public class Door {
   private final String id;
   private boolean closed; // physically
@@ -14,6 +15,7 @@ public class Door {
   private Space fromSpace;  // A door can do an action from this space to another
   private Space toSpace;  // A door can do an action from a space to this space
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public Door(String id, Space fromSpace, Space toSpace) {
     this.id = id;
     this.fromSpace = fromSpace;
@@ -21,6 +23,7 @@ public class Door {
     closed = true;
   }
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public void processRequest(RequestReader request) {
     // it is the Door that process the request because the door has and knows
     // its state, and if closed or open
@@ -39,7 +42,7 @@ public class Door {
         this.state.open();
         break;
       case Actions.CLOSE:
-        this .state.close();
+        this.state.close();
         break;
       case Actions.LOCK:
         // TODO
@@ -53,8 +56,8 @@ public class Door {
         break;
       case Actions.UNLOCK_SHORTLY:
         // TODO
-//        System.out.println("Action " + action + " not implemented yet");
-        this.state.unlock_shortly();
+        //  System.out.println("Action " + action + " not implemented yet");
+        this.state.unlockShortly();
         break;
       default:
         assert false : "Unknown action " + action;
@@ -83,6 +86,7 @@ public class Door {
         + "}";
   }
 
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public JSONObject toJson() {
     JSONObject json = new JSONObject();
     json.put("id", id);
@@ -95,8 +99,15 @@ public class Door {
     this.state = doorStates;
   }
 
-  public void setClosed(boolean close) { this.closed = close; } //Set the door as closed
+  public void setClosed(boolean close) {
+    this.closed = close;
+  } //Set the door as closed
 
-  public Space getFromSpace()  {return fromSpace; }
-  public Space getToSpace() { return toSpace; }
+  public Space getFromSpace() {
+    return fromSpace;
+  }
+
+  public Space getToSpace() {
+    return toSpace;
+  }
 }
