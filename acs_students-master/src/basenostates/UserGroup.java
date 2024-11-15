@@ -45,8 +45,10 @@ public class UserGroup {
   //Loops the area list of the group to know if the space is in the list
   @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public boolean canBeInSpace(Space sp) {
+    CanBeInSpaceVisitor visitor = new CanBeInSpaceVisitor(sp);
     for (Area area : areas) {
-      if (area.getSpaces().contains(sp)) {
+      area.acceptVisitor(visitor);
+      if (visitor.isFound()) {
         return true;
       }
     }

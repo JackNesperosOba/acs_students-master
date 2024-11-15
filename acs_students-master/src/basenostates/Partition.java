@@ -16,39 +16,12 @@ public class Partition extends Area {
   }
 
   @Override
-  public Area findAreaById(String id) {
-    if (this.id.equals(id)) {
-      return this;
-    }
-    // Loop through all areas inside the current group area.
-    for (Area area : areas) {
-      Area foundArea = area.findAreaById(id);  //Recursive
-      if (foundArea != null) {
-        return foundArea;
-      }
-    }
-    // Returns null if there is no area founded.
-    return null;
+  public void acceptVisitor(Visitor vis) {
+    vis.visitPartition(this);
   }
 
-  @Override
-  public ArrayList<Space> getSpaces() {
-    ArrayList<Space> spaces = new ArrayList<>();
-    for (Area area : areas) {
-      spaces.addAll(area.getSpaces());
-    }
-    return spaces;
-  }
-
-  @Override
-  public ArrayList<Door> getDoorsGivingAccess() {
-    ArrayList<Door> doors = new ArrayList<>();
-    for (Area area : areas) {
-      //Loops through list of areas in the partition
-      // to get the all doors and return it as a list of doors
-      doors.addAll(area.getDoorsGivingAccess());
-    }
-    return doors;
+  public ArrayList<Area> getAreas() {
+    return areas;
   }
 
   @SuppressWarnings("checkstyle:MissingJavadocMethod")

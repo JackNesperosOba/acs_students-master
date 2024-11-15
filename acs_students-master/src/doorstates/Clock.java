@@ -12,11 +12,20 @@ public class Clock extends Observable {
   private LocalDateTime date;
   private Timer timer;
   private int period; // seconds
+  private static Clock instance = null;
 
   @SuppressWarnings("checkstyle:MissingJavadocMethod")
-  public Clock(int period) {
+  private Clock(int period) {
     this.period = period;
     timer = new Timer();
+  }
+
+  @SuppressWarnings("checkstyle:MissingJavadocMethod")
+  public static synchronized Clock getInstance(int period) {
+    if (instance == null) {
+      instance = new Clock(period);
+    }
+    return instance;
   }
 
   @SuppressWarnings("checkstyle:MissingJavadocMethod")

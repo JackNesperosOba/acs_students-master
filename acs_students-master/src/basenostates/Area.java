@@ -14,15 +14,8 @@ public abstract class Area {
     this.id = id;
   }
 
-  //Abstract functions that inherited classes must implement
   @SuppressWarnings("checkstyle:MissingJavadocMethod")
-  public abstract Area findAreaById(String id);
-
-  @SuppressWarnings("checkstyle:MissingJavadocMethod")
-  public abstract ArrayList<Space> getSpaces();
-
-  @SuppressWarnings("checkstyle:MissingJavadocMethod")
-  public abstract ArrayList<Door> getDoorsGivingAccess();
+  public abstract void acceptVisitor(Visitor vis);
 
   @Override
   public String toString() {

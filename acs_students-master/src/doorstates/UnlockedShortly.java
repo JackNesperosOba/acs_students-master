@@ -12,7 +12,7 @@ import java.util.Observer;
 @SuppressWarnings("checkstyle:MissingJavadocType")
 public class UnlockedShortly extends DoorStates implements Observer {
   private static final int MAX_TIME = 10;
-  private static final Clock clock = new Clock(MAX_TIME); // a unique clock is shared by all
+  private static final Clock clock = Clock.getInstance(MAX_TIME); // a unique clock is shared by all
   // X objects because of static
   private final LocalDateTime timeUnlocked;
 

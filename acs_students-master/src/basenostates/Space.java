@@ -16,21 +16,12 @@ public class Space extends Area {
   }
 
   @Override
-  public Area findAreaById(String id) {
-    if (this.id.equals(id)) {
-      return this;  // If this space ID is the same has the ID parameter return this space
-    }
-    return null;
+  public void acceptVisitor(Visitor vis) {
+    vis.visitSpace(this);
   }
 
-  @Override
-  public ArrayList<Space> getSpaces() {   //returns this space as an arrayList
-    return new ArrayList<>(Arrays.asList(this));
-  }
-
-  @Override
-  public ArrayList<Door> getDoorsGivingAccess() {   //returns the doors of the space
-    return this.doors;
+  public ArrayList<Door> getDoors() {
+    return doors;
   }
 
   @SuppressWarnings("checkstyle:MissingJavadocMethod")

@@ -1,6 +1,7 @@
 package basenostates.requests;
 
 import basenostates.Area;
+import basenostates.CollectorVisitor;
 import basenostates.DirectoryAreas;
 import basenostates.Door;
 import doorstates.Actions;
@@ -80,7 +81,9 @@ public class RequestArea implements Request {
 
       // Make all the door requests, one for each door in the area, and process them.
       // Look for the doors in the spaces of this area that give access to them.
-      for (Door door : area.getDoorsGivingAccess()) {
+      CollectorVisitor visitor = new CollectorVisitor(areaId);
+      area.acceptVisitor(visitor);
+      for (Door door : visitor.getDoors()) {
         RequestReader requestReader = new RequestReader(credential, action, now, door.getId());
         requestReader.process();
         // after process() the area request contains the answer as the answer

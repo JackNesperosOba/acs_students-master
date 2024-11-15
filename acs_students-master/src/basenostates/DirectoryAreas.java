@@ -73,7 +73,9 @@ public class DirectoryAreas {
 
   @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public static Area findAreaById(String id) {
-    return rootArea.findAreaById(id);
+    FindAreaVisitor visitor = new FindAreaVisitor(id);
+    rootArea.acceptVisitor(visitor);
+    return visitor.getFoundArea();
   }
 
   @SuppressWarnings("checkstyle:MissingJavadocMethod")
