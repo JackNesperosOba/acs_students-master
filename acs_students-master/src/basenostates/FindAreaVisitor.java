@@ -1,7 +1,5 @@
 package basenostates;
 
-import java.util.ArrayList;
-
 @SuppressWarnings("checkstyle:MissingJavadocType")
 public class FindAreaVisitor implements Visitor {
   private String areaId;
