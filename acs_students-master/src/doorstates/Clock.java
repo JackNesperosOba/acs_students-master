@@ -46,10 +46,6 @@ public class Clock extends Observable {
     timer.cancel();
   }
 
-  public int getPeriod() {
-    return period;
-  }
-
   public LocalDateTime getDate() {
     return date;
   }

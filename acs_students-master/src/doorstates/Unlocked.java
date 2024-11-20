@@ -2,24 +2,33 @@ package doorstates;
 
 
 import basenostates.Door;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 //Unlocked door state that inherits the abstract class doorState allowing
 // user to open, close or lock the door
 @SuppressWarnings("checkstyle:MissingJavadocType")
 public class Unlocked extends DoorStates {
+  private static final Logger logger = LoggerFactory
+      .getLogger("fita1.doorstates.DoorStates.Unlocked");
+
   @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public Unlocked(Door door) {
     super(door);
     name = States.UNLOCkED;
+    if (door.getId() != null) {
+      logger.info("Door {} is now in Unlocked state", door.getId());
+    }
   }
 
   //opens the door if it's closed
   @Override
   public void open() {
     if (!door.isClosed()) {
-      System.out.println("Can't open door " + door.getId() + " because it's already ");
+      logger.warn("Attempt to open door {} which is already open", door.getId());
     } else {
       door.setClosed(false);
+      logger.info("Door {} is now open", door.getId());
     }
   }
 
@@ -27,9 +36,10 @@ public class Unlocked extends DoorStates {
   @Override
   public void close() {
     if (door.isClosed()) {
-      System.out.println("Can't close door " + door.getId() + " because it's already closed");
+      logger.warn("Attempt to close door {} which is already closed", door.getId());
     } else {
       door.setClosed(true);
+      logger.info("Door {} is now closed", door.getId());
     }
   }
 
@@ -38,17 +48,20 @@ public class Unlocked extends DoorStates {
   public void lock() {
     if (door.isClosed()) {
       door.setState(new Locked(door));
+      logger.info("Door {} is now locked", door.getId());
+    } else {
+      logger.warn("Attempt to lock door {} which is open", door.getId());
     }
   }
 
   //Unlocks the door even if its already unlocked meaning that it stays at the same state
   @Override
   public void unlock() {
-    door.setState(new Unlocked(door));
+    logger.warn("Attempt to unlock door {} which is already unlocked", door.getId());
   }
 
   @Override
   public void unlockShortly() {
-    System.out.println("Door is already unlocked");
+    logger.warn("Attempt to unlock door {} which is already unlocked shortly", door.getId());
   }
 }

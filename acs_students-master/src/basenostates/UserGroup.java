@@ -2,6 +2,8 @@ package basenostates;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 //Class UserGroup that classifies the user in different groups to
 // know what actions, areas and time they are allowed doing
@@ -12,6 +14,7 @@ public class UserGroup {
   private final ArrayList<String> actions;
   private final ArrayList<User> users;
   private final ArrayList<Area> areas;
+  private static final Logger logger = LoggerFactory.getLogger("fita1.basenostates.UserGroup");
 
   @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public UserGroup(String name, Schedule schedule, ArrayList<String> actions,
@@ -21,6 +24,8 @@ public class UserGroup {
     this.actions = actions;
     this.users = users;
     this.areas = areas;
+
+    logger.info("Creating UserGroup '{}' with schedule {}, actions {}, and areas {}", name, schedule, actions, areas);
 
     for (User u : users) {
       u.setGroup(this);
@@ -36,9 +41,11 @@ public class UserGroup {
   public User findUserByCredential(String credential) {
     for (User u : users) {
       if (credential.equals(u.getCredential())) {
+        logger.info("User with credential '{}' found in UserGroup '{}'.", credential, name);
         return u;
       }
     }
+    logger.warn("User with credential '{}' not found in UserGroup '{}'.", credential, name);
     return null;
   }
 
@@ -49,9 +56,11 @@ public class UserGroup {
     for (Area area : areas) {
       area.acceptVisitor(visitor);
       if (visitor.isFound()) {
+        logger.info("UserGroup '{}' is allowed to access Space '{}'.", name, sp);
         return true;
       }
     }
+    logger.warn("UserGroup '{}' is not allowed to access Space '{}'.", name, sp);
     return false;
   }
 

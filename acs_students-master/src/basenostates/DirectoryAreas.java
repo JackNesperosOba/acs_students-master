@@ -2,12 +2,15 @@ package basenostates;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 //Creates partition, areas and doors
 @SuppressWarnings("checkstyle:MissingJavadocType")
 public class DirectoryAreas {
   private static ArrayList<Door> allDoors;
   private static Area rootArea;
+  private static final Logger logger = LoggerFactory.getLogger("fita1.basenostates.DirectoryAreas");
 
   //Initialize the different partitions with areas and doors
   @SuppressWarnings("checkstyle:MissingJavadocMethod")
@@ -82,10 +85,11 @@ public class DirectoryAreas {
   public static Door findDoorById(String id) {
     for (Door door : allDoors) {
       if (door.getId().equals(id)) {
+        logger.info("Door found with ID '{}': {}", id, door);
         return door;
       }
     }
-    System.out.println("door with id " + id + " not found");
+    logger.warn("Door with ID '{}' not found.", id);
     return null; // otherwise we get a Java error
   }
 

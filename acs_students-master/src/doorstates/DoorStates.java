@@ -1,6 +1,8 @@
 package doorstates;
 
 import basenostates.Door;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 //Abstract class doorState used to define common behaviors that
 // must implement the different states of the door

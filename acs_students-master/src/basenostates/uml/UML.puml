@@ -153,6 +153,11 @@ package doorState <<Folder>> {
     + unlock_shortly()
     }
 
+    interface Observer {
+    +update(o : Observable,
+    arg : Object)
+    }
+
     class UnlockedShortly extends DoorState implements Observer {
     - {static} MAX_TIME : int
     - {static} clock : Clock
@@ -175,11 +180,22 @@ package doorState <<Folder>> {
     + unlock_shortly()
     }
 
+    abstract class Observable {
+
+    +addObserver(ob : Observer)
+    +deleteObserver(ob : Observer)
+    +setChanged()
+    +notifyObservers(arg0 : Observable,
+        arg1 : Object)
+    }
+
     class Clock implements Observable {
     - date : LocalDateTime
     - timer : Timer
     - period : int
+    -instance : Clock
     + Clock(period : int)
+    + getInstance(period : int) : Clock
     + start()
     + stop()
     + getDate() : LocalDateTime
@@ -192,10 +208,8 @@ Door --> "1" DoorState : "state"
 abstract class Area {
 #id: String
 __
-+Area: (id : String)
-+ {abstract} findAreaById(id : String)
-+ {abstract} getSpaces() : Space[]
-+ {abstract} getDoorsGivingAccess : Door[]
++ Area: (id : String)
++ {abstract} acceptVisitor(vis : Visitor)
 + {abstract} toString() : String
 + {abstract} toJson() : JSONObject
 }
@@ -204,10 +218,9 @@ class Spaces extends Area{
 - doors : Door[]
 - group : Partition
 + Space(id : String, group : Partition)
-+ findAreaById(id : String) : Area
-+ getSpaces() : Space[]
-+ getDoorsGivingAccess() : Door[]
++ acceptVisitor(vis : Visitor)
 + addDoor(Door : door)
++ getDoors(): Door[]
 }
 
 class Partition extends Area{
@@ -215,12 +228,40 @@ class Partition extends Area{
 - areas : Area[]
 __
 + Partition(id : String, partition : Partition)
-+ findAreaById(id : String) : Area
-+ getSpaces() : Space[]
-+ getDoorsGivingAccess : Door[]
++ acceptVisitor(vis : Visitor)
 + addArea(Area : area)
++ getAreas(): Area[]
 }
-
+interface Visitor {
++ visitPartition(Partition partition);
++ visitSpace(Space space);
+}
+class FindAreaVisitor implements Visitor {
+- foundArea : Area
+- areaId : String
++ FindAreaVisitor(areaId : String)
++ getFoundArea(): Area
++ visitPartition(Partition partition);
++ visitSpace(Space space);
+}
+class CanBeInSpaceVisitor implements Visitor {
+- spaceToFind : Space
+- found : boolean
++ CanBeInSpaceVisitor(spaceToFind : Space)
++ isFound(): boolean
++ visitPartition(Partition partition);
++ visitSpace(Space space);
+}
+class CollectorVisitor implements Visitor {
+- areaId : String
+- spaces : Space[]
+- doors : Door[]
++ CollectorVisitor(areaId : String)
++ getSpaces(): Space[]
++ getDoors(): Door[]
++ visitPartition(Partition partition);
++ visitSpace(Space space);
+}
 class Schedule {
 - firstDay : LocalDate
 - lastDay : LocalDate
@@ -236,10 +277,13 @@ User --> "*" Area : "areas"
 Spaces --> "*" Door : "doors"
 Door --> "1" Spaces : "fromSpace"
 Door --> "1" Spaces : "toSpace"
+Observable *--> "*" Observer : observers
 
+Observable -[hidden]right- Observer
 Spaces -[hidden]right- Door
 Partition -[hidden]left- Area
 UsersGroup -[hidden]right- User
+Partition -[hidden]right- Visitor
 SocketThread -[hidden]down- Main
 
 @enduml

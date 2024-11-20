@@ -109,7 +109,6 @@ public class DirectoryUserGroups {
         return groups.findUserByCredential(credential);
       }
     }
-    System.out.println("user with credential " + credential + " not found");
     return null; // otherwise we get a Java error
   }
 
