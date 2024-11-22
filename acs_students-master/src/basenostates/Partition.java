@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class Partition extends Area {
   private Partition partition;
   private ArrayList<Area> areas = new ArrayList<>();
-  private static final Logger logger = LoggerFactory.getLogger("fita2.visitor.Area.Space");
+  private static final Logger logger = LoggerFactory.getLogger("fita2.visitor.Area.Partition");
 
   @SuppressWarnings("checkstyle:MissingJavadocMethod")
   public Partition(String id, Partition partition) {

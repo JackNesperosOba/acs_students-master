@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 // Abstract class Area used to define common behaviors that must implement the areas
-// that a user can be in, using the Visitor pattern
-// with Partition and Space classes and Visitor interfacez
+// that a user can be in, using the Composite and Visitor patterns
+// with Partition and Space classes and Visitor interface
 
 @SuppressWarnings("checkstyle:MissingJavadocType")
 public abstract class Area {
